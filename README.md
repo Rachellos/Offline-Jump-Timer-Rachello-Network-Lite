@@ -7,4 +7,6 @@ Rachellos Timer pack for offline gaming with auto demo recordings
 * Download this repo and upload all the files to tf/addons/sourcemod directory
 * Add "-insecure" in tf start params (with this parameter you will not be able to access online servers)
 
+!z - edit zone
+
 Discord: Rachello#8326
