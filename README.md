@@ -7,8 +7,8 @@ Rachellos Timer pack for offline gaming with auto demo recordings
 * Download this repo and upload all the files to tf/addons/sourcemod directory
 * Add "-insecure" in tf start params (with this parameter you will not be able to access online servers)
 
-!z - edit zone
-!mt - show current map tier from tempus api (internet required)
-!ttop <map> - show top times from tempus api (internet required)
+!z - edit zone\n
+!mt - show current map tier from tempus api (internet required)\n
+!ttop <map> - show top times from tempus api (internet required)\n
 
 Discord: Rachello#8326
