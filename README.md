@@ -9,4 +9,9 @@ Rachellos Timer pack for offline gaming with auto demo recordings
 
 !z - edit zone
 
+!mt - show current map tier from tempus api (internet required)
+
+!ttop <map> - show top times from tempus api (internet required)
+
+
 Discord: Rachello#8326
