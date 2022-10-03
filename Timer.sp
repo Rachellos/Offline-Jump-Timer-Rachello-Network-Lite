@@ -19,7 +19,7 @@
 #include <socket>
 #undef REQUIRE_PLUGIN
 #include <updater>
-#define UPDATE_URL    "https://raw.githubusercontent.com/Rachellos/rachellos-tempus/master/Timer-Updater.txt"
+#define UPDATE_URL    "https://raw.githubusercontent.com/Rachellos/Offline-Jump-Timer-Rachello-Network-Lite/main/Timer-Updater.txt"
 #include <tEasyFTP>
 #include <unixtime_sourcemod>
 
