@@ -892,14 +892,6 @@ public int demo_control(Menu mMenu, MenuAction action, int client, int item) {
 				return 0;
 			}
 		}
-		else if (item == 6)
-		{
-			char path[PLATFORM_MAX_PATH];
-			BuildPath(Path_SM, path, sizeof(path), "recordings/bz2/%s", DemoUrlClient[client]);
-			CPrintToChat(client, CHAT_PREFIX..."Uploading %s...", DemoUrlClient[client]);
-			g_hDatabase.Format(query, sizeof(query), "UPDATE maprecs SET demo_status = %i WHERE demourl = '%s'", DEMO_UPLOADING, DemoUrlClient[client]);
-			EasyFTP_UploadFile("demos", path, "/", EasyFTP_CallBack);
-		}
 		else if(item == 8) {
 			Call_StartFunction(INVALID_HANDLE, Func);
 		    Call_PushCell(client);

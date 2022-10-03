@@ -10,17 +10,14 @@
 #include <sdkhooks>
 #include <basecomm>
 #include <stocks>
-#include <tEasyFTP>
 #include <Timer_core>
 #include <smlib/entities>
 #include <SteamWorks>
-#include <idlesystem>
 #include <discord>
 #include <socket>
 #undef REQUIRE_PLUGIN
 #include <updater>
 #define UPDATE_URL    "https://raw.githubusercontent.com/Rachellos/Offline-Jump-Timer-Rachello-Network-Lite/main/Timer-Updater.txt"
-#include <tEasyFTP>
 #include <unixtime_sourcemod>
 
 #undef REQUIRE_EXTENSIONS
