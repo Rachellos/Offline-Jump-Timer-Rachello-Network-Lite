@@ -3033,6 +3033,7 @@ stock void DeleteZoneBeams( int zone, int id = 0, int index = 0 )
 			ent = g_hZones.Get( i, view_as<int>( ZONE_ENT ) );
 			SDKUnhook( ent, SDKHook_Touch, Event_Touch_Zone );
 			SDKUnhook( ent, SDKHook_EndTouch, Event_EndTouchPost_Zone );
+			g_bZoneExists[zone][index] = false;
 			return;
 		}
 	}

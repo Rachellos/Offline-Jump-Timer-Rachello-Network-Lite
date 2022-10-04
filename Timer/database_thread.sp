@@ -1176,12 +1176,13 @@ public void Threaded_Init_Zones( Database hOwner, DBResultSet hQuery, const char
 	}
 	else g_bIsLoaded[RUN_MAIN] = true;
 	
+	if (g_bZoneExists[ZONE_START][0] && g_bZoneExists[ZONE_COURSE_1_START][0])
+		DeleteZoneBeams(ZONE_START, 0, 0);
+
 	for (int i = 2; i < NUM_RUNS+20; i+=2)
 	{
 		g_bIsLoaded[i/2] = ( g_bZoneExists[i][0] && g_bZoneExists[i+1][0] );
 	}
-	
-	
 	if ( g_bIsLoaded[RUN_MAIN] || g_bIsLoaded[RUN_COURSE1] )
 	{
 		SetupZoneSpawns();
