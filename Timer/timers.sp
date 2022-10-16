@@ -3,7 +3,7 @@ public Action Timer_Connected( Handle hTimer, int client )
 {
     if ( !(client = GetClientOfUserId( client )) ) return Plugin_Handled;
 
-    CPrintToChat( client,  CHAT_PREFIX..."Welcome to the {lightskyblue}Rachello Network {white}!");
+    CPrintToChat( client,  CHAT_PREFIX..."Welcome to the {lightskyblue}Rachello Network{white}!");
 
     char i_SteamID[50];
 	GetClientAuthId(client, AuthId_Steam3, i_SteamID, sizeof(i_SteamID));
@@ -70,17 +70,18 @@ public Action Timer_Ad( Handle hTimer )
 // Main component of the HUD timer.
 public void OnGameFrame()
 {
+    float engineTime = GetEngineTime();
     static float TimeToDrawRightHud[MAXPLAYERS+1];
     static PlayerState PrevState[MAXPLAYERS+1];
 
     for ( int client = 1; client <= MaxClients; client++ )
     {
-        if ( !IsClientInGame( client ) || !IsClientConnected(client) || IsFakeClient( client ) || IsClientSourceTV( client )) continue;
+        if ( !IsClientInGame( client ) || IsFakeClient( client ) || IsClientSourceTV( client )) continue;
 
         if ( !g_bClientPractising[client] && GetEntityMoveType( client ) == MOVETYPE_NOCLIP ) SetPlayerPractice( client, true );
 
         if (TimeToDrawRightHud[client] <= 0.0)
-            TimeToDrawRightHud[client] = GetEngineTime() - 0.5;
+            TimeToDrawRightHud[client] = engineTime - 0.5;
 
         int target
             , prefix
@@ -151,7 +152,7 @@ public void OnGameFrame()
         if (g_iClientState[target] == STATE_END)
         {
             if ( RUN_COURSE1 <= run < RUN_COURSE10 && g_bIsLoaded[run + 1] && IsMapMode[target])
-                flCurTime = GetEngineTime() - g_flClientStartTime[target];
+                flCurTime = engineTime - g_flClientStartTime[target];
             else
                 flCurTime = g_flClientFinishTime[target];
 
@@ -195,7 +196,7 @@ public void OnGameFrame()
         }     
         else if ( g_iClientState[target] == STATE_START )
         {
-            flCurTime = GetEngineTime() - g_flClientStartTime[target];
+            flCurTime = engineTime - g_flClientStartTime[target];
             if ( !(g_fClientHideFlags[client] & HIDEHUD_TIMER) )
             {
                 FormatSeconds( flCurTime, szCurTime );
@@ -223,7 +224,7 @@ public void OnGameFrame()
 
             FormatEx(RunName, sizeof(RunName), " \n[%s]\n", g_szRunName[NAME_LONG][run]);
 
-            Format(hintOutput, 256, "%s%s%s%s%s",
+            FormatEx(hintOutput, 256, "%s%s%s%s%s",
                 (g_fClientHideFlags[client] & HIDEHUD_TIMER) ? "" : szCurTime, 
                 (g_fClientHideFlags[client] & HIDEHUD_CP_SPLIT) ? "" : CpSplit,
                 (g_fClientHideFlags[client] & HIDEHUD_RUN_NAME) ? "" : RunName,
@@ -231,10 +232,10 @@ public void OnGameFrame()
                 (g_fClientHideFlags[client] & HIDEHUD_MODE_NAME) ? "" : szTimerMode[target]);
         }
         if ((g_Tiers[run][MODE_SOLDIER] + g_Tiers[run][MODE_DEMOMAN]) <= 0)
-            Format(hintOutput, 256, "No info about tiers :(\nYou cannot set runs or earn points.\nUse /calladmin to report this.", szAmmo[target] );
+            FormatEx(hintOutput, 256, "No info about tiers :(\nYou cannot set runs or earn points.\nUse /calladmin to report this.", szAmmo[target] );
         
         if (g_bClientPractising[target])
-            Format(hintOutput, 256, "Timer Disabled Mode %s", szAmmo[target] );
+            FormatEx(hintOutput, 256, "Timer Disabled Mode %s", szAmmo[target] );
 
         if ( (g_iClientRun[target] != RUN_SETSTART || g_bClientPractising[target]) &&
             !(g_fClientHideFlags[client] & HIDEHUD_CENTRAL_HUD))
@@ -244,35 +245,35 @@ public void OnGameFrame()
             && (run == RUN_MAIN || run == RUN_COURSE1) 
             && PrevState[client] == STATE_START ) )
             {
-                if (!isHudDrawed[client] && (GetEngineTime() - LastHudDrawing[client]) > 0.5)
+                if (!isHudDrawed[client] && (engineTime - LastHudDrawing[client]) > 0.5)
                 {
                     isHudDrawed[client] = true;
                     PrintHintText( client, hintOutput);
-                    LastHudDrawing[client] = GetEngineTime();
+                    LastHudDrawing[client] = engineTime;
                 }
                 else if ( isHudDrawed[client] )
                 {
-                    LastHudDrawing[client] = GetEngineTime();
+                    LastHudDrawing[client] = engineTime;
                     PrintHintText( client, hintOutput);
                 }
             }
             else
             {
-                if ((GetEngineTime() - LastHudDrawing[client]) >= 0.5)
+                if ((engineTime - LastHudDrawing[client]) >= 0.5)
                 {
                     isHudDrawed[client] = true;
                     PrintHintText( client, hintOutput);
-                    LastHudDrawing[client] = GetEngineTime();
+                    LastHudDrawing[client] = engineTime;
                 }
             }
         }
         //Right side hud
         if ( !(g_fClientHideFlags[client] & HIDEHUD_SIDEINFO) )
         {
-            if ((GetEngineTime() - TimeToDrawRightHud[client]) >= 0.5)
+            if ((engineTime - TimeToDrawRightHud[client]) >= 0.5)
             {
                 ShowKeyHintText( client, target );
-                TimeToDrawRightHud[client] = GetEngineTime();
+                TimeToDrawRightHud[client] = engineTime;
             }
         }
         PrevState[client] = g_iClientState[target];
