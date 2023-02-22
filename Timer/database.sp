@@ -25,7 +25,7 @@ stock bool GetClientSteam( int client, char[] szSteam, int len )
 
 stock void DB_LogError( const char[] szMsg, int client = 0, const char[] szClientMsg = "" )
 {
-	char szError[100];
+	char szError[300];
 	SQL_GetError( g_hDatabase, szError, sizeof( szError ) );
 	LogError( CONSOLE_PREFIX..."Error: %s (%s)", szError, szMsg );
 	
@@ -49,7 +49,17 @@ stock void DB_InitializeDatabase()
 {
 	char szError[100];
 
-    g_hDatabase = SQLite_UseDatabase("Timer", szError, sizeof(szError));
+	KeyValues kv = new KeyValues("");
+	kv.SetString("driver", "sqlite");
+	kv.SetString("host", "localhost");
+	kv.SetString("database", "Timer");
+	kv.SetString("user", "root");
+
+	g_hDatabase = SQL_ConnectCustom(kv,
+								  szError,
+								  sizeof(szError),
+								  true);
+	delete kv;
 
 	if ( g_hDatabase == null )
 		SetFailState( CONSOLE_PREFIX..."Unable to establish connection to the database! Error: %s", szError );
@@ -208,14 +218,14 @@ stock void DB_InitializeDatabase()
 		)" );
 	
 	g_hDatabase.Query( Threaded_Empty,
-		"INSERT INTO `points` VALUES\ 
+		"REPLACE INTO `points` VALUES\ 
 		('map',1,10,200),('map',2,20,250),('map',3,30,300),('map',4,50,350),('map',5,100,400),\
 		('map',6,200,500),('course',1,5,100),('course',2,10,150),('course',3,20,200),('course',4,30,250),\
 		('course',5,50,300),('course',6,100,400),('bonus',1,2,10),('bonus',2,5,20),\
 		('bonus',3,10,40),('bonus',4,20,60),('bonus',5,30,80),('bonus',6,50,100);" );
 
 	g_hDatabase.Query( Threaded_Empty,
-		"INSERT INTO `points_multipler` VALUES (1,1),(2,0.7),(3,0.5),(4,0.4),(5,0.35),(6,0.3),(7,0.25),(8,0.2),(9,0.15),(10,0.1),(11,0);" );
+		"REPLACE INTO `points_multipler` VALUES (1,1),(2,0.7),(3,0.5),(4,0.4),(5,0.35),(6,0.3),(7,0.25),(8,0.2),(9,0.15),(10,0.1),(11,0);" );
 }
 
 // Get map zones, mimics and vote-able maps

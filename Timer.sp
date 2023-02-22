@@ -1294,7 +1294,7 @@ public void OnPluginStart()
 
 	LoadTranslations( "common.phrases" ); // So FindTarget() can work.
 	//LoadTranslations( "opentimer.phrases" );
-
+	
 	DB_InitializeDatabase();
 }
 
